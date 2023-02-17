@@ -17,9 +17,6 @@ vector<int> closestPrimes(int left, int right) {
             }
         }
     }
-    if(left==1){
-        left=left+1;
-    }
     for(int number=left;number<right+1;number++){
         cout<<now<<" "<<next<<" "<<min<<" ";
         if(table[number]){
