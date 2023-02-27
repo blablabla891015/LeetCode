@@ -3,59 +3,41 @@
 #include <cmath>
 #include <algorithm>
 using namespace std;
-vector<long long> table={1};
-long long factorial(int n ,vector<long long>& table){
-    if(n==0){
-        return 1;
-    }
-    else if(table.size()>n){
-        // cout<<"check";
-        return table[n];
-    }
-    else {
-        long long x=factorial(n-1,table);
-        table.push_back(x*n);
-        return x*n;
 
-    }
-
-}
 int countGoodStrings(int low, int high, int zero, int one) {
-    // slove ax + by = c
-    vector<vector<int>> solutions;
-    int result=0;
-    int q;
-    int a;
-    int r;
-    int b;
-    for(int c=low ;c<high+1;c++){
-        a=max(zero,one);
-        b=min(zero,one);
-        // cout<<"a is"<<a;
-        // cout<<"b is"<<b;
-
-        q=c/a;
-        r=c%a;
-        while(q>=0){
-            if(r%b == 0){
-                // result+=factorial((q+r/b),table)/(factorial(q,table)*factorial(r/b,table));
-                cout<<q<<" "<<r/b<<" ";
-            }
-            q--;
-            r+=a;
+    vector<int> table(max(zero,one)+1,0);
+    int mod=pow(10,9)+7;
+    int res=0;
+    table[min(zero,one)]+=1;
+    table[max(zero,one)]+=1;
+    for(int i=min(zero,one)+1;i<max(zero,one)+1;i++){
+        if(i%min(zero,one)==0){
+            table[i]+=1;
         }
-        
     }
-    // cout<<result;
-    return result;
+    // for(int i =0;i<table.size();i++){
+    //     cout<<table[i]<<" ";
+    // }
+    
+
+    for(int i=max(zero,one)+1;i<high+1;i++){
+        table.push_back((table[i-zero]+table[i-one])%mod);
+    }
+    for(int i=low;i< high+1;i++){
+        res+=table[i];
+        res=res%mod;
+    }
+    cout<<res;
+    return res;
+    
 
     }
 
 int main(void){
-    // countGoodStrings(200,200,10,1);
+    countGoodStrings(10,10,2,1);
     // cout<<factorial(5,table)<<" ";
     // cout<<factorial(7,table)<<" ";
-    cout<<factorial(7,table)<<" ";
+    // cout<<factorial(7,table)<<" ";
 
     return 0;
     
