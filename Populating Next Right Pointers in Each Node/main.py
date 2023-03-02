@@ -16,8 +16,8 @@ class Solution(object):
             root.left.next=root.right
         if(root.right and root.next):
             root.right.next=root.next.left
-        self.connect(root.right)
         self.connect(root.left)
+        self.connect(root.right)
         
         return root
         
