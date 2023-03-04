@@ -13,27 +13,23 @@ int peopleAwareOfSecret(int n, int delay, int forget){
             people[i]=1;
         }
         else if(i <= forget){
-            people[i]=(people[i-1]+people[i-delay])%modulo;
-            p_increase[i]=people[i-delay]%modulo;
-            
+            people[i] = people[i-1] + people[i-delay];
+            p_increase[i] = people[i-delay];
+            if( people[i] >= modulo )people[i] -= modulo;
+            if( p_increase[i] >= modulo ) p_increase[i] -= modulo;
         }
         else{
             int x=0;
             for(int j=delay;j<forget;j++){
-                x+= p_increase[i-j];
-                // cout<<x<<" ";
+                x += p_increase[i-j];
+                if( x >= modulo ) x -= modulo;
             }
-            people[i]=(people[i-1]+x-p_increase[i-forget])%modulo;
-            p_increase[i]=x%modulo;
-            // cout << p_increase[i];
-
+            people[i]=(people[i-1]-(p_increase[i-forget])+x)%modulo;
+            if( people[i] < 0 ) people[i] += modulo;
+            p_increase[i] = x;
         }
         i++;
     }
-    for(int j = 0;j<p_increase.size();j++){
-        cout<<p_increase[j]<<" ";
-    }
-
     return people[n];
 }
     
